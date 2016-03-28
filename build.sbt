@@ -38,7 +38,7 @@ dockerfile in docker := {
 
 	//To start the main app:
 	//sbt powerdata-app/aspectj-runner:run  -Dcassandra.connection.host="localhost" -mem 4096
-    cmd("scala", "e", "com.logimethods.powerdata.app.PowerDataApp")
+    cmd("scala", "-e", "com.logimethods.powerdata.app.PowerDataApp")
 
   }
 }
