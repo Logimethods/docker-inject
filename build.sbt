@@ -22,7 +22,10 @@ dockerfile in docker := {
 
   new Dockerfile {
     // Use a base image that contain Java
-    from("java:8-jre")
+    from("frolvlad/alpine-scala")
+ 
+    // Expose port 80
+    expose(80)
 
     // Copy all dependencies to 'libs' in the staging directory
     classpath.files.foreach { depFile =>
@@ -33,6 +36,9 @@ dockerfile in docker := {
     // Add the libs dir from the
     addRaw(libs, libs)
 
-//    cmd("java", "-cp", classpathString, mainclass)
+	//To start the main app:
+	//sbt powerdata-app/aspectj-runner:run  -Dcassandra.connection.host="localhost" -mem 4096
+    cmd("scala", "e", "com.logimethods.powerdata.app.PowerDataApp")
+
   }
 }
