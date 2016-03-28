@@ -9,14 +9,9 @@ name := "docker-inject"
 
 organization := "logimethods"
 
-version := "0.1.0"
+version := "0.1-SNAPSHOT"
 
-resolvers += "spray repo" at "http://repo.spray.io/"
-
-libraryDependencies ++= Seq(
-  "io.spray" % "spray-can" % "1.2.0",
-  "io.spray" % "spray-routing" % "1.2.0",
-  "com.typesafe.akka" %% "akka-actor" % "2.2.3")
+libraryDependencies ++= Seq("com.datastax.killrweather" % "powerdata-app_2.11" % version.value)
 
 enablePlugins(DockerPlugin)
 
@@ -27,9 +22,7 @@ dockerfile in docker := {
 
   new Dockerfile {
     // Use a base image that contain Java
-    from("sequenceiq/spark:latest")
-    // Expose port 8080
-    expose(8080)
+    from("java:8-jre")
 
     // Copy all dependencies to 'libs' in the staging directory
     classpath.files.foreach { depFile =>
