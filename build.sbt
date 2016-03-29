@@ -22,7 +22,8 @@ dockerfile in docker := {
 
   new Dockerfile {
     // Use a base image that contain Java
-    from("frolvlad/alpine-scala")
+//    from("frolvlad/alpine-scala")
+    from("sequenceiq/spark:1.6.0")
  
     // Expose port 80
     expose(80)
