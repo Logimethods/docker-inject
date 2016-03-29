@@ -22,8 +22,8 @@ dockerfile in docker := {
 
   new Dockerfile {
     // Use a base image that contain Java
-//    from("frolvlad/alpine-scala")
-    from("sequenceiq/spark:1.6.0")
+    from("frolvlad/alpine-scala")
+//    from("sequenceiq/spark:1.6.0")
  
     // Expose port 80
     expose(80)
@@ -40,7 +40,7 @@ dockerfile in docker := {
 	//To start the main app:
 	//sbt powerdata-app/aspectj-runner:run  -Dcassandra.connection.host="localhost" -mem 4096
 //    cmd("scala", "-classpath", "app/libs/*.jar", "-e", "com.logimethods.powerdata.app.PowerDataApp")
-    cmd("scala")
-
+//    cmd("spark-shell")
+	cmd("bash")
   }
 }
