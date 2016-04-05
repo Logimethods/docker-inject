@@ -25,8 +25,9 @@ dockerfile in docker := {
     from("frolvlad/alpine-scala")
 //    from("sequenceiq/spark:1.6.0")
  
-    // Expose port 8088
+    // Expose ports 8088 & 2552
     expose(8088)
+    expose(2552)
 
     // Copy all dependencies to 'libs' in the staging directory
     classpath.files.foreach { depFile =>
