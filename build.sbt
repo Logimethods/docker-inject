@@ -25,8 +25,8 @@ dockerfile in docker := {
     from("frolvlad/alpine-scala")
 //    from("sequenceiq/spark:1.6.0")
  
-    // Expose port 80
-    expose(80)
+    // Expose port 8088
+    expose(8088)
 
     // Copy all dependencies to 'libs' in the staging directory
     classpath.files.foreach { depFile =>
@@ -39,7 +39,7 @@ dockerfile in docker := {
 
 	//To start the main app:
 	//sbt powerdata-app/aspectj-runner:run  -Dcassandra.connection.host="localhost" -mem 4096
-    cmd("scala", "-classpath", "app/libs/*", "com.logimethods.powerdata.app.PowerDataApp")
+    cmd("scala", "-classpath", "app/libs/*", "-Dcassandra.connection.host=\"cassandra\"", "com.logimethods.powerdata.app.PowerDataApp")
 //    cmd("spark-shell")
 //	cmd("bash")
   }

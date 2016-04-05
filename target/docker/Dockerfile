@@ -1,4 +1,4 @@
 FROM frolvlad/alpine-scala
-EXPOSE 80
+EXPOSE 8088
 ADD /app/libs /app/libs
-CMD ["scala", "-classpath", "app\/libs\/*", "com.logimethods.powerdata.app.PowerDataApp"]
+CMD ["scala", "-classpath", "app\/libs\/*", "-Dcassandra.connection.host=\"cassandra\"", "com.logimethods.powerdata.app.PowerDataApp"]
