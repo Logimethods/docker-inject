@@ -69,7 +69,7 @@ println(resources.head.getPath)
     // Add the libs dir from the
     addRaw(libs, libs)
 
-    add(dockerFiles("*.so"), s"$sigar/libsigar-amd64-linux.so")
+    add(dockerFiles("libsigar-amd64-linux.so"), s"$sigar/libsigar-amd64-linux.so")
 //cmd("RUN", "mv", s"/sigar/libsigar-amd64-linux.so", "/app/libs/libsigar-amd64-linux.so")
 
 	//To start the main app:
