@@ -17,40 +17,11 @@ libraryDependencies ++= Seq("com.datastax.killrweather" % "powerdata-app_2.11" %
 
 enablePlugins(DockerPlugin)
 
-//dockerCommands += ExecCmd("RUN", "mv", s"${(defaultLinuxInstallLocation in Docker).value}/sigar/libsigar-amd64-linux.so", "/app/libs/libsigar-amd64-linux.so")
-//unmanagedResourceDirectories in Compile <+= (baseDirectory) {_ / "sigar"}
-
-///resourceDirectories in Compile <+= baseDirectory / "sigar"
-
-///mappings in (Compile, packageBin) ~= (_.filter { case (file, outpath) => outpath.startsWith("/sigar")} )
-
-/*  lazy val sigarSettings = Seq(
-    unmanagedSourceDirectories in (Compile,run) += baseDirectory.value.getParentFile / "sigar",
-    javaOptions in run ++= {
-      System.setProperty("java.library.path", file("./sigar").getAbsolutePath)
-      Seq("-Xms128m", "-Xmx1024m")
-    })*/
-
-unmanagedResources in (Compile,run) += baseDirectory.value / "sigar"
-
 // Define a Dockerfile
 dockerfile in docker := {
   val classpath = (managedClasspath in Compile).value
   val libs = "/app/libs"
   val sigar = "/sigar"
-
-  
-    // Add the sigar files to the libs
-    // @see http://stackoverflow.com/questions/28676006/add-copy-files-with-sbt-native-packagers-docker-support
-//    mappings in Universal += file(sigar + "/libsigar-amd64-linux.so") -> libs + "/libsigar-amd64-linux.so"
-// map of (relativeName -> File) of all files in resources/docker dir, for convenience
-/*  val dockerFiles = {
-    val resources = (unmanagedResources in Runtime).value
-println(resources.head.getPath)
-println(resources.toArray)
-    val dockerFilesDir = resources.find(_.getPath.endsWith("/sigar")).get
-    resources.filter(_.getPath.contains("/sigar/")).map(r => dockerFilesDir.toURI.relativize(r.toURI).getPath -> r).toMap
-  }*/
 
   new Dockerfile {
     // Use a base image that contain Java
@@ -70,14 +41,6 @@ println(resources.toArray)
     // Add the libs dir from the
     addRaw(libs, libs)
 
-//println(dockerFiles)
-println()
-//println(dockerFiles("libsigar-amd64-linux.so").getPath)
-
-//    add(dockerFiles("libsigar-amd64-linux.so"), s"$sigar")
-//cmd("RUN", "mv", s"/sigar/libsigar-amd64-linux.so", "/app/libs/libsigar-amd64-linux.so")
-
-println(baseDirectory.value)
 	add(baseDirectory.value / "sigar", sigar)
 
 	//To start the main app:
