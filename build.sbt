@@ -41,14 +41,14 @@ dockerfile in docker := {
     // Add the libs dir from the
     addRaw(libs, libs)
 
-	add(baseDirectory.value / "sigar", sigar)
+	add(baseDirectory.value / "sigar", libs)
 
 	//To start the main app:
 	//sbt powerdata-app/aspectj-runner:run  -Dcassandra.connection.host="localhost" -mem 4096
 	//scala -classpath "app/libs/*" -Dcassandra.connection.host="cassandra" com.logimethods.powerdata.app.PowerDataApp
-	//scala -classpath "app/libs/*:sigar/*" -Dcassandra.connection.host="cassandra" -Dakka.remote.netty.tcp.bind-hostname="localhost" -Dakka.remote.netty.tcp.bind-port="2552" -Dakka.remote.netty.tcp.hostname="localhost" -Dakka.remote.netty.tcp.port="2552" -J-Xmx4g com.logimethods.powerdata.app.PowerDataApp
+	//scala -classpath "app/libs/*" -Dcassandra.connection.host="cassandra" -Dakka.remote.netty.tcp.bind-hostname="localhost" -Dakka.remote.netty.tcp.bind-port="2552" -Dakka.remote.netty.tcp.hostname="localhost" -Dakka.remote.netty.tcp.port="2552" -J-Xmx4g com.logimethods.powerdata.app.PowerDataApp
 
-    cmd("scala", "-classpath", s"app/libs/*:$sigar/*", "-Dcassandra.connection.host=\"cassandra\"", "com.logimethods.powerdata.app.PowerDataApp")
+    cmd("scala", "-classpath", s"app/libs/*", "-Dcassandra.connection.host=\"cassandra\"", "com.logimethods.powerdata.app.PowerDataApp")
 //    cmd("spark-shell")
 //	cmd("bash")
   }
