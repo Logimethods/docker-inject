@@ -31,7 +31,7 @@ enablePlugins(DockerPlugin)
       Seq("-Xms128m", "-Xmx1024m")
     })*/
 
-unmanagedSourceDirectories in (Compile,run) += baseDirectory.value.getParentFile / "sigar"
+unmanagedResources in (Compile,run) += baseDirectory.value / "sigar"
 
 // Define a Dockerfile
 dockerfile in docker := {
@@ -44,12 +44,13 @@ dockerfile in docker := {
     // @see http://stackoverflow.com/questions/28676006/add-copy-files-with-sbt-native-packagers-docker-support
 //    mappings in Universal += file(sigar + "/libsigar-amd64-linux.so") -> libs + "/libsigar-amd64-linux.so"
 // map of (relativeName -> File) of all files in resources/docker dir, for convenience
-  val dockerFiles = {
+/*  val dockerFiles = {
     val resources = (unmanagedResources in Runtime).value
 println(resources.head.getPath)
+println(resources.toArray)
     val dockerFilesDir = resources.find(_.getPath.endsWith("/sigar")).get
     resources.filter(_.getPath.contains("/sigar/")).map(r => dockerFilesDir.toURI.relativize(r.toURI).getPath -> r).toMap
-  }
+  }*/
 
   new Dockerfile {
     // Use a base image that contain Java
@@ -69,8 +70,15 @@ println(resources.head.getPath)
     // Add the libs dir from the
     addRaw(libs, libs)
 
-    add(dockerFiles("libsigar-amd64-linux.so"), s"$sigar/libsigar-amd64-linux.so")
+//println(dockerFiles)
+println()
+//println(dockerFiles("libsigar-amd64-linux.so").getPath)
+
+//    add(dockerFiles("libsigar-amd64-linux.so"), s"$sigar")
 //cmd("RUN", "mv", s"/sigar/libsigar-amd64-linux.so", "/app/libs/libsigar-amd64-linux.so")
+
+println(baseDirectory.value)
+	add(baseDirectory.value / "sigar", sigar)
 
 	//To start the main app:
 	//sbt powerdata-app/aspectj-runner:run  -Dcassandra.connection.host="localhost" -mem 4096
